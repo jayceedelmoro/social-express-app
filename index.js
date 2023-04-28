@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const server = express();
-const PORT   = 8000;
+const PORT   = process.env.PORT || 8000;
 
 // Use our modules
 server.use( bodyParser.json() ); // This solves getting the body of the request
@@ -17,6 +17,9 @@ let users = [
 let posts = [
 ]
 
+/* 
+
+*/
 server.post('/register', (request, response) => {
     const userFound = users.find(user => user.email === request.body.email )
 
