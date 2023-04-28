@@ -9,6 +9,8 @@ const PORT   = 8000;
 server.use( bodyParser.json() ); // This solves getting the body of the request
 server.use( cors() ); // Solves communication by other software
 
+let userId = 0;
+
 let users = [
 ]
 
@@ -19,8 +21,10 @@ server.post('/register', (request, response) => {
     const userFound = users.find(user => user.email === request.body.email )
 
     if (!userFound) {
-        users.push( request.body );
+        userId++;
+        users.push( {"id": userId, ...request.body} );
         response.send({ message: 'User has been successfully registered!' });
+        console.log(users)
     }
     else if (request.body.email === '' || request.body.username === '' || request.body.password === '' ) {
         response.send({ error: 'Cannot Create User' });
