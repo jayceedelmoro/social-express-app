@@ -30,8 +30,18 @@ server.post('/register', (request, response) => {
     }
 });
 
-server.get('/register', (request, response) => {
-    response.send( users )
+server.post('/login', (request, response) => {
+    const userFound = users.find(user => 
+            user.username === request.body.username 
+            && user.password === request.body.password
+        )
+
+    if (userFound) {
+        response.send({ message: 'Successful Login' });
+    }
+    else {
+        response.send({ error: 'Invalid credentials' });
+    }
 });
 
 server.listen( PORT, () => { console.log(`Server is running on port ${PORT}`); })
