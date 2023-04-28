@@ -1,0 +1,37 @@
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+
+const server = express();
+const PORT   = 8000;
+
+// Use our modules
+server.use( bodyParser.json() ); // This solves getting the body of the request
+server.use( cors() ); // Solves communication by other software
+
+let users = [
+]
+
+let posts = [
+]
+
+server.post('/register', (request, response) => {
+    const userFound = users.find(user => user.email === request.body.email )
+
+    if (!userFound) {
+        users.push( request.body );
+        response.send({ message: 'User has been successfully registered!' });
+    }
+    else if (request.body.email === '' || request.body.username === '' || request.body.password === '' ) {
+        response.send({ error: 'Cannot Create User' });
+    }
+    else {
+        response.send({ error: 'Email already exists in the database' });
+    }
+});
+
+server.get('/register', (request, response) => {
+    response.send( users )
+});
+
+server.listen( PORT, () => { console.log(`Server is running on port ${PORT}`); })
